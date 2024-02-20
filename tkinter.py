@@ -1,36 +1,58 @@
 import tkinter as tk
+from tkinter import filedialog, messagebox
 
-# Function to show tooltips
-def show_tooltip(event, tooltip_text):
-    tooltip.geometry(f"+{event.x_parent + 10}+{event.y_parent + 10}")  # Adjust tooltip position
-    tooltip_label.config(text=tooltip_text)
-    tooltip.deiconify()
+def browse_file():
+    file_path = filedialog.askopenfilename()
+    if file_path:
+        entry_file_path.delete(0, tk.END)
+        entry_file_path.insert(tk.END, file_path)
 
-# Function to hide tooltips
-def hide_tooltip(event):
-    tooltip.withdraw()
+def perform_action():
+    file_path = entry_file_path.get()
+    # Здесь можно выполнять требуемые действия с файлом
+    # и обновлять данные
+    updated_data = "Новые данные"
+    text_output.delete(1.0, tk.END)
+    text_output.insert(tk.END, updated_data)
 
-# Create the main window
-parent = tk.Tk()
-parent.title("Tooltip Example")
+root = tk.Tk()
+root.title("Мое красивое GUI")
+root.configure(bg="#222222")
 
-# Create a button with a tooltip
-button = tk.Button(parent, text="Button with Tooltip")
-button.pack(padx=10, pady=10)
-button.bind("<Enter>", lambda event, text="This is a button.": show_tooltip(event, text))
-button.bind("<Leave>", hide_tooltip)
+# Создаем метку и поле ввода для пути файла
+label_file_path = tk.Label(root, text="Путь файла:", fg="white", bg="#222222")
+label_file_path.pack()
 
-# Create a label with a tooltip
-label = tk.Label(parent, text="Label with Tooltip")
-label.pack(padx=10, pady=10)
-label.bind("<Enter>", lambda event, text="This is a label.": show_tooltip(event, text))
-label.bind("<Leave>", hide_tooltip)
+entry_file_path = tk.Entry(root, width=50)
+entry_file_path.pack()
 
-# Create the tooltip window (hidden by default)
-tooltip = tk.Toplevel(parent)
-tooltip.withdraw()
-tooltip_label = tk.Label(tooltip, text="", background="lightyellow", relief="solid", borderwidth=1)
-tooltip_label.pack()
+# Создаем кнопку "Обзор" для выбора файла
+button_browse = tk.Button(root, text="Обзор", command=browse_file, bg="#555555", fg="white")
+button_browse.pack()
 
-# Start the Tkinter event loop
-parent.mainloop()
+# Создаем кнопку "Выполнить действие"
+button_action = tk.Button(root, text="Выполнить действие", command=perform_action, bg="#555555", fg="white")
+button_action.pack()
+
+# Создаем метку и текстовую область для выгрузки данных
+label_output = tk.Label(root, text="Обновленные данные:", fg="white", bg="#222222")
+label_output.pack()
+
+text_output = tk.Text(root, width=50, height=10, bg="#333333", fg="white")
+text_output.pack()
+
+# Создаем консоль
+console_label = tk.Label(root, text="Консоль:", fg="white", bg="#222222")
+console_label.pack()
+
+console_output = tk.Text(root, width=50, height=10, bg="#333333", fg="white")
+console_output.pack()
+
+def write_to_console(message):
+    console_output.insert(tk.END, message + "\n")
+    console_output.see(tk.END)
+
+# Пример вывода сообщения в консоль
+write_to_console("Привет, это моя консоль!")
+
+root.mainloop()
