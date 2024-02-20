@@ -1,15 +1,17 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox
 
-def browse_file():
-    file_path = filedialog.askopenfilename()
-    if file_path:
-        entry_file_path.delete(0, tk.END)
-        entry_file_path.insert(tk.END, file_path)
+def browse_files():
+    file_paths = filedialog.askopenfilenames()
+    if file_paths:
+        entry_files.delete(1.0, tk.END)
+        for file_path in file_paths:
+            entry_files.insert(tk.END, file_path + '\n')
 
 def perform_action():
-    file_path = entry_file_path.get()
-    # Здесь можно выполнять требуемые действия с файлом
+    file_paths = entry_files.get(1.0, tk.END).split('\n')
+    file_paths = [path.strip() for path in file_paths if path.strip()]
+    # Здесь можно выполнять требуемые действия с файлами
     # и обновлять данные
     updated_data = "Новые данные"
     text_output.delete(1.0, tk.END)
@@ -22,15 +24,15 @@ root = tk.Tk()
 root.title("Мое красивое GUI")
 root.configure(bg="#222222")
 
-# Создаем метку и поле ввода для пути файла
-label_file_path = tk.Label(root, text="Путь файла:", fg="white", bg="#222222")
-label_file_path.pack()
+# Создаем метку и поле ввода для путей файлов
+label_files = tk.Label(root, text="Пути файлов:", fg="white", bg="#222222")
+label_files.pack()
 
-entry_file_path = tk.Entry(root, width=50)
-entry_file_path.pack()
+entry_files = tk.Text(root, width=50, height=10)
+entry_files.pack()
 
-# Создаем кнопку "Обзор" для выбора файла
-button_browse = tk.Button(root, text="Обзор", command=browse_file, bg="#555555", fg="white")
+# Создаем кнопку "Обзор" для выбора файлов
+button_browse = tk.Button(root, text="Обзор", command=browse_files, bg="#555555", fg="white")
 button_browse.pack()
 
 # Создаем кнопку "Выполнить действие"
@@ -63,3 +65,4 @@ def write_to_console(message):
 write_to_console("Привет, это моя консоль!")
 
 root.mainloop()
+
