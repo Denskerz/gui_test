@@ -15,6 +15,9 @@ def perform_action():
     text_output.delete(1.0, tk.END)
     text_output.insert(tk.END, updated_data)
 
+def my_function():
+    messagebox.showinfo("Сообщение", "Функция выполняется!")
+
 root = tk.Tk()
 root.title("Мое красивое GUI")
 root.configure(bg="#222222")
@@ -33,6 +36,10 @@ button_browse.pack()
 # Создаем кнопку "Выполнить действие"
 button_action = tk.Button(root, text="Выполнить действие", command=perform_action, bg="#555555", fg="white")
 button_action.pack()
+
+# Создаем кнопку "Моя функция"
+button_my_function = tk.Button(root, text="Моя функция", command=my_function, bg="#555555", fg="white")
+button_my_function.pack()
 
 # Создаем метку и текстовую область для выгрузки данных
 label_output = tk.Label(root, text="Обновленные данные:", fg="white", bg="#222222")
